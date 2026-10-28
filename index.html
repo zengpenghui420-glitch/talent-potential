@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F6EDE2">
+<meta name="description" content="天赋潜能测试。18 道原创情景题，看看语言表达、逻辑拆解、人际共感、创意联想、秩序推进、内省觉察。娱乐向自我探索，非正式心理测量。">
+<meta property="og:title" content="天赋潜能测试">
+<meta property="og:description" content="你的隐藏天赋是什么。娱乐向自我探索，非正式心理测量，非职业测评，非诊断。">
+<meta property="og:url" content="https://zengpenghui420-glitch.github.io/talent-potential/">
+<link rel="canonical" href="https://zengpenghui420-glitch.github.io/talent-potential/">
+<title>天赋潜能测试</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23F6EDE2'/%3E%3Cpath d='M16 6 L25 11 L25 21 L16 26 L7 21 L7 11 Z' fill='none' stroke='%23A8843F' stroke-width='1.6' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='2.2' fill='%238E7A9E'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#F6EDE2;--card:#FFFBF7;--ink:#3A2C32;--muted:#7C6A70;--faint:#A89496;
+  --gold:#A8843F;--gold-deep:#7A5B2E;--gold-soft:#C6A35C;--plum:#6F5C82;--plum-deep:#5E4C6E;
+  --line:#E6D5C6;--apricot:#F6E6D0;--lilac:#F0E8F3;
+  --sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:#E9DDD0;color-scheme:light}
+body{
+  max-width:430px;margin:0 auto;min-height:100dvh;color:var(--ink);line-height:1.6;
+  font-family:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","WenQuanYi Micro Hei","Droid Sans Fallback","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(circle at 12% -6%, rgba(168,132,63,.16), transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(142,122,158,.14), transparent 32%),
+    linear-gradient(180deg,#FBF6EE,#F6EDE2 46%,#F3E6EA);
+  overflow-x:hidden
+}
+body.lock{overflow:hidden}
+button,input{font-family:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none !important}
+.screen{display:none}
+.screen.active{display:block}
+#start.active,#quiz.active,#loading.active{display:flex;flex-direction:column;min-height:100dvh}
+#loading.active{align-items:center;justify-content:center;text-align:center;padding:24px}
+#start{padding:calc(22px + var(--st)) 22px calc(22px + var(--sb));text-align:center}
+.mark{width:168px;height:120px;margin:6px auto 2px}
+.mark svg{width:100%;height:auto;display:block}
+.eyebrow{font-size:12px;letter-spacing:3px;color:var(--gold-deep);font-weight:600;margin-bottom:8px}
+h1{font-size:30px;line-height:1.25;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+.sub{font-size:16px;color:var(--plum-deep);margin-bottom:16px}
+.dim-intro{list-style:none;text-align:left;display:flex;flex-direction:column;gap:8px;margin:0 0 16px}
+.dim-intro li{display:flex;gap:10px;align-items:center;background:rgba(255,251,247,.88);border:1px solid var(--line);border-radius:16px;padding:8px 12px}
+.dim-intro i{flex:0 0 28px;width:28px;height:28px;border-radius:9px;background:var(--lilac);color:var(--plum-deep);font-style:normal;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.dim-intro b{display:block;font-size:14px;line-height:1.3}
+.dim-intro span{display:block;font-size:12px;color:var(--muted);line-height:1.45}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.pill{padding:5px 10px;border-radius:999px;background:rgba(255,251,247,.9);border:1px solid var(--line);color:var(--gold-deep);font-size:12px}
+.btn-primary{width:100%;padding:15px 16px;border:none;border-radius:28px;background:linear-gradient(180deg,#C6A35C,#9A7436);color:#FFFBF7;font-size:17px;font-weight:700;box-shadow:0 8px 18px rgba(154,116,54,.22)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.65}
+.btn-ghost{width:100%;margin-top:10px;padding:13px 16px;border-radius:28px;border:1.5px solid #C4B3D0;background:rgba(255,251,247,.92);color:var(--plum-deep);font-size:15px;font-weight:600}
+.btn-ghost:active{transform:scale(.98)}
+.hint{margin-top:14px;font-size:12px;color:var(--faint);line-height:1.6}
+.disclaimer{margin-top:16px;padding:12px 12px 12px 14px;background:#F8EFE4;border:1px solid #E4D0BE;border-left:4px solid var(--gold);border-radius:14px;color:#4A3A34;font-size:13px;line-height:1.7;text-align:left}
+.disclaimer strong{font-weight:700}
+.qh{padding:14px 18px 12px;background:rgba(246,237,226,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+.qrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.qback{background:none;border:none;color:var(--muted);font-size:14px;padding:4px 0}
+.qprog{font-size:13px;color:var(--gold-deep);font-weight:700}
+.track{height:6px;background:#E7D9C8;border-radius:3px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#C6A35C,#8E7A9E);border-radius:3px;transition:width .3s}
+.qbody{padding:22px 20px 28px}
+.qno{font-size:12px;letter-spacing:2px;color:var(--gold-deep);font-weight:700;margin-bottom:8px}
+.qtext{font-size:20px;font-weight:700;line-height:1.5;margin-bottom:18px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;background:rgba(255,251,247,.94);border:1.5px solid var(--line);border-radius:16px;color:var(--ink);font-size:15px;box-shadow:0 3px 0 rgba(230,213,198,.9)}
+.opt .onum{flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:var(--apricot);color:var(--gold-deep);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.opt.sel,.opt:active{border-color:var(--gold);background:#F8F1E4;color:var(--gold-deep)}
+.opt.sel .onum{background:var(--gold);color:#FFFBF7}
+.loader{width:40px;height:40px;border:3px solid #E7D6C4;border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.load-title{font-weight:700;color:var(--gold-deep)}
+.load-sub{margin-top:6px;font-size:13px;color:var(--faint)}
+#result{padding-bottom:calc(196px + var(--sb))}
+.rtop{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(246,237,226,.94);border-bottom:1px solid var(--line);font-size:14px;font-weight:700;backdrop-filter:blur(8px)}
+.rtop span:last-child{font-weight:500;color:var(--plum);font-size:13px}
+.result-body{padding:16px 16px 8px}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,251,247,.98),rgba(255,248,242,.94));border:1px solid var(--line);border-radius:22px;padding:18px 16px 16px;margin-bottom:12px;box-shadow:0 10px 24px rgba(90,60,40,.05)}
+.kicker{font-size:12px;letter-spacing:4px;color:var(--gold-deep);font-weight:700}
+.index-num{font-size:68px;line-height:.95;font-weight:700;color:var(--gold-deep);letter-spacing:-1px;margin:4px 0 2px}
+.index-max{font-size:12px;color:var(--faint);margin-bottom:10px}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+.lv{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--apricot);color:var(--gold-deep);font-size:13px;font-weight:700}
+.lv-line{margin-top:8px;font-size:13px;color:var(--muted)}
+.lead{margin-top:14px;font-size:12px;letter-spacing:2px;color:var(--plum);font-weight:700}
+.type-title{font-size:28px;line-height:1.25;margin:4px 0 6px}
+.punch{font-size:15px;line-height:1.7;color:#4A3C44}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{padding:4px 10px;border-radius:999px;background:var(--lilac);color:var(--plum-deep);font-size:12px;font-weight:600}
+.subtalent{margin-top:14px;padding:10px 12px;border-radius:14px;background:var(--lilac);font-size:13.5px;line-height:1.65;color:var(--plum-deep)}
+.subtalent b{display:block;font-size:13px;letter-spacing:1px;margin-bottom:2px}
+.note{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
+.st{font-size:16px;font-weight:700;letter-spacing:1px;margin-bottom:12px}
+.st:before{content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:2px;background:var(--gold);transform:translateY(-1px) rotate(45deg)}
+.fine{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.65}
+.radar-box svg{width:100%;height:auto;display:block}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.score-grid div{text-align:center;background:var(--apricot);border-radius:14px;padding:8px 4px}
+.score-grid b{display:block;font-size:18px;color:var(--gold-deep);line-height:1.2}
+.score-grid span{font-size:11px;color:var(--muted)}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
+.bullets li{position:relative;padding-left:14px;font-size:14.5px;line-height:1.7;color:#3E3236}
+.bullets li:before{content:"";position:absolute;left:0;top:.72em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.dim-read{padding:12px 0;border-top:1px solid var(--line)}
+.dim-read:first-of-type{border-top:none;padding-top:0}
+.dim-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dn{font-size:14px;font-weight:700}
+.ds{font-size:18px;font-weight:700;color:var(--plum)}
+.dim-read p{margin-top:4px;font-size:13.5px;color:var(--muted);line-height:1.7}
+#result .disclaimer{margin:4px 0 12px}
+.acts{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;padding:8px 12px calc(10px + var(--sb));background:rgba(255,251,247,.97);border-top:1px solid var(--line);z-index:20;display:flex;flex-direction:column;gap:6px}
+.acts-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.45}
+.acts-row{display:flex;gap:8px}
+.acts-row button{flex:1;padding:11px 4px;border-radius:22px;font-size:13px;font-weight:700}
+.bo{border:1.5px solid #C4B3D0;background:#fff;color:var(--plum-deep)}
+.bp{border:none;background:linear-gradient(180deg,#C6A35C,#9A7436);color:#FFFBF7}
+.ov{position:fixed;inset:0;background:rgba(58,44,50,.82);z-index:200;display:none;flex-direction:column;align-items:center;padding:16px 16px calc(16px + var(--sb));overflow-y:auto}
+.ov.show{display:flex}
+.ov img{width:min(100%,400px);border-radius:16px;background:#F6EDE2}
+.ovh{color:#F6EDE2;font-size:14px;margin:8px 0 12px}
+.ovb{display:flex;gap:10px;width:100%;max-width:400px;margin-top:12px}
+.ovb button{flex:1;padding:12px;border:none;border-radius:22px;font-size:15px;font-weight:700}
+.ovb .save{background:#fff;color:var(--gold-deep)}
+.ovb .shut{background:rgba(255,251,247,.16);color:#FFFBF7}
+.toast{position:fixed;bottom:calc(210px + var(--sb));left:50%;transform:translateX(-50%);background:rgba(58,44,50,.92);color:#FFFBF7;padding:10px 16px;border-radius:20px;font-size:13px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;max-width:88%;text-align:center}
+.toast.show{opacity:1}
+.code-mask{position:fixed;inset:0;background:rgba(58,44,50,.42);z-index:150;display:none;align-items:center;justify-content:center;padding:20px}
+.code-mask.show{display:flex}
+.code-panel-wrap{position:relative;width:100%;max-width:340px}
+.code-panel{background:#FFFBF7;border:1.5px solid var(--line);border-radius:22px;padding:24px 18px 18px;box-shadow:0 16px 40px rgba(58,44,50,.16);text-align:center}
+.code-panel h3{font-size:18px;margin-bottom:14px}
+.code-panel input{width:100%;padding:14px 12px;border:1.5px solid var(--line);border-radius:14px;font-size:18px;letter-spacing:2px;text-align:center;color:var(--ink);background:#F8F3EC;outline:none}
+.code-panel input:focus{border-color:var(--gold);background:#fff}
+.code-panel .btn-primary{margin-top:12px}
+.code-hint{margin-top:12px;font-size:12px;color:var(--faint);line-height:1.6}
+.code-close{position:absolute;top:8px;right:12px;background:none;border:none;font-size:22px;color:var(--faint);line-height:1;padding:4px}
+@media (prefers-reduced-motion:reduce){.fill,.toast{transition:none}.loader{animation:none}}
+</style>
+</head>
+<body>
+<section id="start" class="screen active">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 200 140">
+      <ellipse cx="100" cy="124" rx="48" ry="7" fill="#E7D4C0"/>
+      <path d="M100 28 L140 51 L140 97 L100 120 L60 97 L60 51 Z" fill="#F8F1E6" stroke="#A8843F" stroke-width="6" stroke-linejoin="round"/>
+      <circle cx="100" cy="74" r="9" fill="#F0E8F3" stroke="#8E7A9E" stroke-width="3"/>
+      <line x1="100" y1="16" x2="100" y2="28" stroke="#A8843F" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="100" cy="13" r="3.5" fill="#8E7A9E"/>
+    </svg>
+  </div>
+  <p class="eyebrow">娱乐向 · 自我探索</p>
+  <h1>天赋潜能测试</h1>
+  <p class="sub">你的隐藏天赋是什么</p>
+  <ul class="dim-intro">
+    <li><i>L</i><div><b>语言表达</b><span>把想法说清楚、写清楚</span></div></li>
+    <li><i>Q</i><div><b>逻辑拆解</b><span>找规律、拆问题、算清楚</span></div></li>
+    <li><i>R</i><div><b>人际共感</b><span>读情绪、把关系稳住</span></div></li>
+    <li><i>C</i><div><b>创意联想</b><span>跨界脑洞、发散点子</span></div></li>
+    <li><i>O</i><div><b>秩序推进</b><span>拆目标、推进到收尾</span></div></li>
+    <li><i>I</i><div><b>内省觉察</b><span>看清自己、调自己的节奏</span></div></li>
+  </ul>
+  <div class="pills"><span class="pill">18 道情景题</span><span class="pill">五级自评</span><span class="pill">约 3 分钟</span></div>
+  <button class="btn-primary" id="btnStart" type="button">开始测试</button>
+  <button class="btn-ghost" id="btnLast" type="button" hidden>查看上次结果</button>
+  <p class="hint">单选 · 没有标准答案 · 高分是偏好线索，不是能力排名</p>
+  <p class="disclaimer" id="startDisclaimer"></p>
+</section>
+
+<section id="quiz" class="screen">
+  <div class="qh">
+    <div class="qrow"><button class="qback" id="qback" type="button">← 返回</button><span class="qprog" id="qprog"></span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div class="qbody">
+    <div class="qno" id="qno"></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+</section>
+
+<section id="loading" class="screen">
+  <div class="loader"></div>
+  <div class="load-title">正在辨认六项偏好…</div>
+  <div class="load-sub">语言、逻辑、共感、创意、秩序、内省，各看一眼</div>
+</section>
+
+<section id="result" class="screen">
+  <div class="rtop"><span>天赋潜能测试</span><span id="resultMeta"></span></div>
+  <div class="result-body" id="resultBody"></div>
+  <div class="acts">
+    <p class="acts-note">娱乐向自我探索 · 非正式心理测量 · 非职业测评 · 非诊断</p>
+    <div class="acts-row">
+      <button class="bo" id="btnRetry" type="button">重新测试</button>
+      <button class="bo" id="btnViewLast" type="button">查看上次结果</button>
+    </div>
+    <div class="acts-row">
+      <button class="bo" id="btnCopy" type="button">复制文案</button>
+      <button class="bp" id="btnImg" type="button">生成分享图</button>
+    </div>
+  </div>
+</section>
+
+<div class="ov" id="ov">
+  <div class="ovh">长按图片保存，发给朋友</div>
+  <img id="shareImg" alt="天赋潜能测试分享图">
+  <div class="ovb">
+    <button class="save" id="btnDl" type="button">下载</button>
+    <button class="shut" id="btnClose" type="button">关闭</button>
+  </div>
+</div>
+
+<div class="code-mask" id="codeMask" aria-hidden="true">
+  <div class="code-panel-wrap">
+    <div class="code-panel">
+      <button type="button" class="code-close" id="codeClose" aria-label="关闭">×</button>
+      <h3>输入测试验证码</h3>
+      <input type="text" id="codeInput" placeholder="例如 TP7K3N" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" enterkeyhint="go">
+      <button type="button" class="btn-primary" id="btnCodeOk">开始答题</button>
+      <p class="code-hint">付款后会收到 TP 开头的 6 位验证码<br>每个码可使用 3 次<br>重新测试会再次扣次 · 查看上次结果不扣次</p>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px;text-align:center">请开启 JavaScript 后使用本测验。</p></noscript>
+<script>
+const MANTLE_NS='catquiz-zph420-codes';
+const MANTLE_COL='tp';
+const MANTLE_KEY='f60c0dae2088e5ccd5061a110aef0c0ff2a5b85f2658e78809c9123c9d82a22c';
+const MANTLE_BASE='https://mantledb.sh/v2/'+MANTLE_NS;
+const ACCESS_KEY='talent_potential_unlocked';
+const ACCESS_CODE_KEY='talent_potential_code';
+const LAST_KEY='talent_potential_last_result';
+const CODE_RE=/^TP[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}$/;
+const URL_='https://zengpenghui420-glitch.github.io/talent-potential/';
+const DISCLAIMER='本测试为娱乐向自我探索，题目为原创日常情景，非正式心理测量、非职业测评、非诊断。潜能指数只是偏好线索的娱乐分档，不代表能力高低或职业适合度。高分不等于更有天赋，低分也不代表没有可能。';
+const FONT='"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","WenQuanYi Micro Hei","Droid Sans Fallback","Microsoft YaHei",sans-serif';
+const CHOICES=[{v:1,t:'完全不像我'},{v:2,t:'不太像'},{v:3,t:'说不清'},{v:4,t:'有点像'},{v:5,t:'非常像我'}];
+const DIM_IDS=['L','Q','R','C','O','I'];
+
+const QS=[
+  {dim:'L', t:'把一件复杂的事讲给别人听时，我通常能讲到对方听懂。'},
+  {dim:'Q', t:'遇到乱成一团的问题，我会下意识先拆成几步再动手。'},
+  {dim:'R', t:'一进场合，我常能先感觉到气氛紧不紧、谁不太舒服。'},
+  {dim:'C', t:'脑子里经常突然蹦出奇怪但好玩的点子或类比。'},
+  {dim:'O', t:'我会主动列清单或排优先级，不然心里不踏实。'},
+  {dim:'I', t:'独处一会儿后，我通常更清楚自己到底想要什么。'},
+  {dim:'L', t:'写一段话（朋友圈/文档/私信）对我来说不算难，常能写出想表达的感觉。'},
+  {dim:'Q', t:'找规律、对数字或流程里的漏洞，我比身边人更敏感一点。'},
+  {dim:'R', t:'朋友心情不好时，我往往能听得进去，也愿意陪着。'},
+  {dim:'C', t:'做同一件事，我喜欢换个法子试试，而不是永远同一套路。'},
+  {dim:'O', t:'一件事开了头，我更在意能不能收尾、推进到可交付。'},
+  {dim:'I', t:'情绪上来时，我能较快意识到「我现在是什么状态」。'},
+  {dim:'L', t:'讨论时我愿意先开口梳理观点，而不是一直闷着。'},
+  {dim:'Q', t:'别人说「凭感觉」，我更想先问清楚原因和依据。'},
+  {dim:'R', t:'别人没明说的别扭，我有时比他们自己更早察觉。'},
+  {dim:'C', t:'看到不相关的东西，我也容易联想到「能不能拼在一起」。'},
+  {dim:'O', t:'团队或小组里，我常自然变成「盯进度/排时间」的那个人。'},
+  {dim:'I', t:'做决定前，我会先问问自己：这是真想要，还是被推着走。'}
+];
+
+const PROFILES={
+  L:{
+    name:'语言表达', short:'表达', clue:'把想法说清楚、写清楚',
+    portrait:'你习惯把脑子里的事，说成别人听得懂的话。',
+    tags:['愿开口','叙事顺','写得清'],
+    traits:[
+      '复杂的事到你嘴里，常常能被讲到对方点头。',
+      '朋友圈、文档或一封私信，你比较容易写出自己想要的那种感觉。',
+      '讨论冷下来的时候，你愿意先开口，把观点理一理。',
+      '群里要发说明、写祝福或把一件事讲明白，别人往往会先想到你。'
+    ],
+    advice:[
+      '先讲对方关心的那一句，再补过程，话会更稳。',
+      '写完读一遍，把只有你自己懂的缩写换掉。',
+      '开口前留十秒，定下最想让人记住的一句。',
+      '你的表达也可以用来帮不爱开口的人，把他们的份说清楚。'
+    ],
+    bands:{
+      low:'你不太急着开口或落笔，想法更多停在自己这边。',
+      mid:'需要的时候你说得清、写得明，不一定每次都抢先开口。',
+      high:'你愿意把想法说出来、写出来，也更容易把人讲明白。'
+    }
+  },
+  Q:{
+    name:'逻辑拆解', short:'拆解', clue:'找规律、拆问题、算清楚',
+    portrait:'乱成一团的时候，你先看见可以拆开的那几步。',
+    tags:['爱追问','条理清','抓漏洞'],
+    traits:[
+      '问题一乱，你会先拆成几步，再动手。',
+      '数字、流程和「好像哪里不对」，你比身边人更早皱一下眉。',
+      '别人说凭感觉时，你更想先问原因和依据。',
+      '聚餐分账、核对清单，往往是你最快把口收上。'
+    ],
+    advice:[
+      '拆完告诉同伴你的步骤，别只在脑子里算完。',
+      '抓到漏洞时，先说它会影响什么，再说对不对。',
+      '允许有一件小事凭感觉做完，逻辑不用全程在岗。',
+      '把「为什么」问给事情，也问给自己：我是在澄清，还是把大家卡住了。'
+    ],
+    bands:{
+      low:'你较少先拆步骤，更常跟着感觉把事情做下去。',
+      mid:'乱的时候你能拆开看，也能接受有些事先做了再调整。',
+      high:'你爱追问因果，数字和流程里的缝，你不太会放过。'
+    }
+  },
+  R:{
+    name:'人际共感', short:'共感', clue:'读情绪、把关系稳住',
+    portrait:'你进门就能感到气氛，也愿意把人听完。',
+    tags:['察气氛','愿倾听','稳关系'],
+    traits:[
+      '一进场合，你常先感觉到紧不紧、谁不太舒服。',
+      '朋友心情不好时，你听得进去，也愿意陪着。',
+      '别人没说出口的别扭，你有时比他们自己更早察觉。',
+      '想倒苦水的时候，第一通电话常常会打到你这里。'
+    ],
+    advice:[
+      '听完先问一句：你想被听着，还是想一起想办法。',
+      '察觉到别扭时，用一句确认，而不是直接下判断。',
+      '关系你稳得住，也给自己留一个不必接住所有情绪的晚上。',
+      '把你感觉到的气氛轻轻说出来一点，别人就少猜一层。'
+    ],
+    bands:{
+      low:'气氛和没说出口的别扭，你不是最先察觉的那个。',
+      mid:'你听得进别人，也会在自己的节奏里停一停。',
+      high:'你容易感到谁不舒服，也愿意把关系听稳。'
+    }
+  },
+  C:{
+    name:'创意联想', short:'联想', clue:'把不相干的东西连成新点子',
+    portrait:'不相干的东西到你这里，容易突然变成一个点子。',
+    tags:['点子多','爱换法','跨界连'],
+    traits:[
+      '脑子里会突然蹦出奇怪但好玩的点子或类比。',
+      '同一件事，你喜欢换个法子试，而不想永远走老路。',
+      '看到不相关的两样东西，你会想能不能拼在一起。',
+      '别人还在按原来的步骤走，你已经在脑内改了一版。'
+    ],
+    advice:[
+      '点子先记一条，再挑一个最小的去试，避免只停在脑内。',
+      '换方法之前留一句：这次要保住的结果是什么。',
+      '把类比讲给一个较实在的人听，点子会落地一半。',
+      '新组合很好玩，收尾时回到「别人能不能照着做」。'
+    ],
+    bands:{
+      low:'你更习惯沿用熟路，不太常把不相干的东西拼到一起。',
+      mid:'你有时会换个法子，点子来了也不一定马上拿去试。',
+      high:'点子和类比来得勤，你喜欢把旧事换成新的组合。'
+    }
+  },
+  O:{
+    name:'秩序推进', short:'推进', clue:'拆目标、推进到收尾',
+    portrait:'你把目标拆开，并真的把它推到可以交差。',
+    tags:['爱清单','跟进度','能收尾'],
+    traits:[
+      '不列清单、不排优先级，你心里会不踏实。',
+      '一件事开了头，你更在意能不能收尾、能不能交出去。',
+      '小组里你常自然变成盯进度、排时间的那个人。',
+      '行程和待办如果没人排，最后多半还是你来排。'
+    ],
+    advice:[
+      '清单上只留三件今天真要完成的，其余先放下。',
+      '推进时告诉同伴下一步是谁的，避免只有你在盯。',
+      '收尾前留十分钟：做成了什么，下次哪一步可以少做。',
+      '秩序是帮事情发生，不是要求所有人都和你一样整齐。'
+    ],
+    bands:{
+      low:'清单和进度不是你的默认动作，事情更常边走边看。',
+      mid:'你能排优先级，也允许有些事先开个头再说。',
+      high:'你靠清单和收尾感往前推，小组里常是你在盯时间。'
+    }
+  },
+  I:{
+    name:'内省觉察', short:'觉察', clue:'看清自己、调自己的节奏',
+    portrait:'独处一会儿，你就更能看清自己下一步想要什么。',
+    tags:['会反思','懂边界','调节奏'],
+    traits:[
+      '独处一会儿之后，你通常更清楚自己到底想要什么。',
+      '情绪上来时，你能较快意识到自己现在是什么状态。',
+      '做决定前，你会先问：这是真想要，还是被推着走。',
+      '忙完回到自己的节奏里，下一步会清楚一些。'
+    ],
+    advice:[
+      '觉察到状态之后，给它一个很小的动作，而不只是知道。',
+      '问自己「真想要吗」时，也问一句准备为此放下什么。',
+      '把边界说给会受影响的人，独处里的清楚才进得了日子。',
+      '反思留一个结束时间，避免想清楚变成一直在想。'
+    ],
+    bands:{
+      low:'你较少停下来问自己想要什么，决定多半跟着外面走。',
+      mid:'你能感到自己的状态，独处之后会清楚一些。',
+      high:'你常回头看自己的状态和边界，独处后更知道下一步。'
+    }
+  }
+};
+
+let ans=[];
+let qi=0;
+let picking=false;
+let current=null;
+let codeBusy=false;
+
+function $(id){return document.getElementById(id)}
+function el(tag, cls, text){
+  const n=document.createElement(tag);
+  if(cls) n.className=cls;
+  if(text!=null) n.textContent=text;
+  return n;
+}
+function esc(s){return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function bandOf(score){return score<40?'low':score<70?'mid':'high'}
+function levelOf(index){
+  if(index<=24) return {id:'seed', name:'种子萌芽型', line:'偏好还轻轻的，像刚入土的种子。'};
+  if(index<=49) return {id:'sprout', name:'破土探光型', line:'已经有方向，正在往光的地方探。'};
+  if(index<=74) return {id:'leaf', name:'枝叶舒展型', line:'几项偏好已经长开，日常生活里用得上。'};
+  return {id:'bloom', name:'盛放闪光型', line:'自我报告的偏好很鲜明，像这一季开得正盛。'};
+}
+function to100(arr){
+  const mean=arr.reduce((a,b)=>a+b,0)/arr.length;
+  return Math.round((mean-1)/4*100);
+}
+function dimBlock(id, score){
+  const p=PROFILES[id];
+  return {id:id, name:p.name, score:score, text:p.bands[bandOf(score)]};
+}
+function buildProfile(ids){
+  if(ids.length===1){
+    const p=PROFILES[ids[0]];
+    return {title:p.name, portrait:p.portrait, tags:p.tags, traits:p.traits, advice:p.advice};
+  }
+  const a=PROFILES[ids[0]], b=PROFILES[ids[1]];
+  return {
+    title:a.short+'×'+b.short,
+    portrait:'你在「'+a.name+'」和「'+b.name+'」上同样突出：一边'+a.clue+'，一边'+b.clue+'。',
+    tags:[a.tags[0], b.tags[0], a.tags[1]],
+    traits:[a.traits[0], a.traits[1], b.traits[0], b.traits[1]],
+    advice:[a.advice[0], a.advice[1], b.advice[0], b.advice[1]]
+  };
+}
+function secondaryTip(sec){
+  const p=PROFILES[sec.id];
+  if(sec.score<25) return '副天赋线索还轻，排序第二是「'+p.name+'」：'+p.clue+'。先把它当成偶尔用得上的帮手就好。';
+  return '副天赋偏向「'+p.name+'」：'+p.clue+'。可以把它放在主导天赋旁边，一起用。';
+}
+function analyze(scores){
+  const index=Math.round(DIM_IDS.reduce((s,id)=>s+scores[id],0)/DIM_IDS.length);
+  const level=levelOf(index);
+  const ranked=DIM_IDS.map(id=>({id:id, score:scores[id]}))
+    .sort((a,b)=>(b.score-a.score)||(DIM_IDS.indexOf(a.id)-DIM_IDS.indexOf(b.id)));
+  const tied=ranked[0].score===ranked[1].score;
+  let dominantIds, note='';
+  if(tied){
+    dominantIds=[ranked[0].id, ranked[1].id].sort((a,b)=>DIM_IDS.indexOf(a)-DIM_IDS.indexOf(b));
+    if(ranked[2].score===ranked[0].score) note='多项分数相同，称号取排序靠前的两项。';
+    else note='两项并列，称号取双名。';
+  }else dominantIds=[ranked[0].id];
+  const secondary=tied?ranked[2]:ranked[1];
+  if(ranked[0].score-ranked[5].score<=8) note=(note?note+' ':'')+'六项非常接近，主导只是微弱领先。';
+  if(index<40) note=(note?note+' ':'')+'整体线索还轻。主导天赋只是六项里相对更明显的一项，不是能力定论。';
+  const report={
+    index:index, level:level, dominantIds:dominantIds,
+    profile:buildProfile(dominantIds),
+    secondary:secondary, secondaryTip:secondaryTip(secondary),
+    note:note, dims:DIM_IDS.map(id=>dimBlock(id, scores[id]))
+  };
+  DIM_IDS.forEach(id=>{report[id]=scores[id]});
+  return report;
+}
+function scoreFromAnswers(list){
+  const bucket={L:[],Q:[],R:[],C:[],O:[],I:[]};
+  for(let i=0;i<QS.length;i++) bucket[QS[i].dim].push(list[i]);
+  const scores={};
+  DIM_IDS.forEach(id=>{scores[id]=to100(bucket[id])});
+  return analyze(scores);
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', s.id===id));
+  window.scrollTo(0,0);
+}
+function toast(msg){
+  const t=$('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function renderQ(){
+  const q=QS[qi];
+  $('qprog').textContent=(qi+1)+' / '+QS.length;
+  $('fill').style.width=((qi+1)/QS.length*100)+'%';
+  $('qno').textContent='第 '+(qi+1)+' 题';
+  $('qtext').textContent=q.t;
+  $('qback').textContent=qi?'← 上一题':'← 返回';
+  const box=$('opts');
+  box.textContent='';
+  CHOICES.forEach(c=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='opt'+(ans[qi]===c.v?' sel':'');
+    b.appendChild(el('span','onum',String(c.v)));
+    b.appendChild(el('span','olab',c.t));
+    b.onclick=()=>pick(c.v);
+    box.appendChild(b);
+  });
+}
+function pick(v){
+  if(picking) return;
+  picking=true;
+  ans[qi]=v;
+  document.querySelectorAll('#opts .opt').forEach((node,k)=>node.classList.toggle('sel', k===v-1));
+  setTimeout(()=>{
+    picking=false;
+    if(qi<QS.length-1){qi++;renderQ()}
+    else finish();
+  },180);
+}
+function finish(){
+  show('loading');
+  const report=scoreFromAnswers(ans);
+  setTimeout(()=>{
+    try{
+      const saved={index:report.index, at:Date.now()};
+      DIM_IDS.forEach(id=>{saved[id]=report[id]});
+      localStorage.setItem(LAST_KEY, JSON.stringify(saved));
+    }catch(e){}
+    refreshLastBtn();
+    renderResult(report);
+    show('result');
+  },900);
+}
+function fillDisclaimer(node){
+  node.textContent='';
+  const marks=['非正式心理测量、非职业测评、非诊断','不代表能力高低或职业适合度'];
+  const re=new RegExp('('+marks.map(m=>m.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')');
+  DISCLAIMER.split(re).forEach(part=>{
+    if(marks.indexOf(part)>=0) node.appendChild(el('strong',null,part));
+    else if(part) node.appendChild(document.createTextNode(part));
+  });
+}
+function radarSVG(r){
+  const dims=DIM_IDS.map(id=>({name:PROFILES[id].name, score:r[id]}));
+  const cx=220, cy=230, R=92, n=dims.length;
+  const pt=(i,v)=>{
+    const a=-Math.PI/2+(i*2*Math.PI)/n;
+    const rr=Math.max(0,Math.min(100,v))/100*R;
+    return [cx+rr*Math.cos(a), cy+rr*Math.sin(a)];
+  };
+  let rings='', axes='', nums='';
+  [25,50,75,100].forEach(k=>{
+    const pts=[];
+    for(let i=0;i<n;i++) pts.push(pt(i,k).map(v=>v.toFixed(1)).join(','));
+    const strong=k===50||k===100;
+    rings+='<polygon points="'+pts.join(' ')+'" fill="'+(k===100?'rgba(168,132,63,0.05)':'none')+'" stroke="'+(strong?'#D7C2A4':'#E7D8C8')+'" stroke-width="'+(strong?'1.6':'1')+'"/>';
+    const wedge=-Math.PI/3;
+    const sx=cx+(k/100)*R*Math.cos(wedge);
+    const sy=cy+(k/100)*R*Math.sin(wedge);
+    nums+='<text x="'+sx.toFixed(1)+'" y="'+sy.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#A89496">'+k+'</text>';
+  });
+  for(let i=0;i<n;i++){
+    const p=pt(i,100);
+    axes+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#E6D5C8" stroke-width="1"/>';
+  }
+  const poly=dims.map((d,i)=>pt(i,d.score).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const dots=dims.map((d,i)=>{
+    const p=pt(i,d.score);
+    return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="4.2" fill="#FFFBF7" stroke="#A8843F" stroke-width="2"/>';
+  }).join('');
+  let labels='';
+  const halo=' stroke="#FFFBF7" stroke-width="4" paint-order="stroke"';
+  dims.forEach((d,i)=>{
+    const a=-Math.PI/2+(i*2*Math.PI)/n;
+    const lr=R+52;
+    const x=cx+lr*Math.cos(a);
+    const y=cy+lr*Math.sin(a);
+    const anchor=Math.abs(Math.cos(a))<0.35?'middle':(Math.cos(a)>0?'start':'end');
+    labels+='<text x="'+x.toFixed(1)+'" y="'+(y-8).toFixed(1)+'" text-anchor="'+anchor+'" font-size="12" fill="#3A2C32"'+halo+'>'+esc(d.name)+'</text>';
+    labels+='<text x="'+x.toFixed(1)+'" y="'+(y+10).toFixed(1)+'" text-anchor="'+anchor+'" font-size="15" font-weight="700" fill="#7A5B2E"'+halo+'>'+d.score+'</text>';
+  });
+  const aria='六维雷达图，刻度 0 到 100。'+dims.map(d=>d.name+' '+d.score).join('，');
+  return '<svg viewBox="0 0 440 470" role="img" aria-label="'+esc(aria)+'">'+
+    rings+axes+
+    '<polygon points="'+poly+'" fill="rgba(168,132,63,0.32)" stroke="#A8843F" stroke-width="2.4" stroke-linejoin="round"/>'+
+    dots+nums+labels+'</svg>';
+}
+function renderResult(r){
+  current=r;
+  const root=$('resultBody');
+  root.textContent='';
+  $('resultMeta').textContent=r.level.name;
+
+  const hero=el('section','card');
+  hero.appendChild(el('p','kicker','潜能指数'));
+  hero.appendChild(el('p','index-num',String(r.index)));
+  hero.appendChild(el('p','index-max','满分 100 · 六维平均'));
+  const badge=el('div','badge-row');
+  badge.appendChild(el('span','lv',r.level.name));
+  hero.appendChild(badge);
+  hero.appendChild(el('p','lv-line',r.level.line));
+  hero.appendChild(el('p','lead','主导隐藏天赋'));
+  const title=el('h2','type-title',r.profile.title);
+  title.id='typeTitle';
+  hero.appendChild(title);
+  hero.appendChild(el('p','punch',r.profile.portrait));
+  const tags=el('div','tags');
+  r.profile.tags.forEach(t=>tags.appendChild(el('span','tag',t)));
+  hero.appendChild(tags);
+  const sub=el('p','subtalent');
+  sub.id='subTalent';
+  const sec=PROFILES[r.secondary.id];
+  sub.appendChild(el('b',null,'副天赋 · '+sec.name));
+  sub.appendChild(document.createTextNode(r.secondaryTip));
+  hero.appendChild(sub);
+  if(r.note) hero.appendChild(el('p','note',r.note));
+  root.appendChild(hero);
+
+  const radar=el('section','card');
+  radar.id='radarCard';
+  radar.appendChild(el('h2','st','六维雷达'));
+  const box=el('div','radar-box');
+  box.innerHTML=radarSVG(r);
+  radar.appendChild(box);
+  const grid=el('div','score-grid');
+  DIM_IDS.forEach(id=>{
+    const d=el('div');
+    d.dataset.dim=id;
+    d.appendChild(el('b',null,String(r[id])));
+    d.appendChild(el('span',null,PROFILES[id].name));
+    grid.appendChild(d);
+  });
+  radar.appendChild(grid);
+  radar.appendChild(el('p','fine','外圈是 100。越靠外，这一维的自我报告偏好越明显。0 是全选「完全不像我」，100 是全选「非常像我」。高分是偏好线索，不是能力排名。'));
+  root.appendChild(radar);
+
+  const traits=el('section','card');
+  traits.id='traitCard';
+  traits.appendChild(el('h2','st','特征表现'));
+  const ul=el('ul','bullets');
+  r.profile.traits.forEach(t=>ul.appendChild(el('li',null,t)));
+  traits.appendChild(ul);
+  root.appendChild(traits);
+
+  const adv=el('section','card');
+  adv.id='adviceCard';
+  adv.appendChild(el('h2','st','发挥建议'));
+  const ul2=el('ul','bullets');
+  r.profile.advice.forEach(t=>ul2.appendChild(el('li',null,t)));
+  adv.appendChild(ul2);
+  root.appendChild(adv);
+
+  const dims=el('section','card');
+  dims.id='dimCard';
+  dims.appendChild(el('h2','st','六维短解读'));
+  r.dims.forEach(d=>{
+    const block=el('div','dim-read');
+    const head=el('div','dim-head');
+    head.appendChild(el('span','dn',d.name+'（'+d.id+'）'));
+    head.appendChild(el('span','ds',String(d.score)));
+    block.appendChild(head);
+    block.appendChild(el('p',null,d.text));
+    dims.appendChild(block);
+  });
+  root.appendChild(dims);
+
+  const disc=el('p','disclaimer');
+  disc.id='disclaimer';
+  fillDisclaimer(disc);
+  root.appendChild(disc);
+}
+function resultText(r){
+  const sec=PROFILES[r.secondary.id];
+  const lines=DIM_IDS.map(id=>PROFILES[id].name+' '+r[id]);
+  return [
+    '天赋潜能测试',
+    '潜能指数 '+r.index+' · '+r.level.name,
+    '主导隐藏天赋：'+r.profile.title,
+    '副天赋：'+sec.name,
+    lines.join(' · '),
+    '「'+r.profile.portrait+'」',
+    '娱乐向自我探索，非正式心理测量，非职业测评，非诊断。',
+    URL_
+  ].join('\n');
+}
+function copyText(){
+  if(!current){toast('还没有可复制的结果');return}
+  const t=resultText(current);
+  const done=()=>toast('文案已复制');
+  const fail=()=>{
+    const a=document.createElement('textarea');
+    a.value=t;document.body.appendChild(a);a.select();
+    try{document.execCommand('copy');done()}catch(e){toast('复制失败，请长按手动复制')}
+    a.remove();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done).catch(fail);
+  else fail();
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function wrapT(ctx,text,maxW){
+  const out=[];let line='';
+  for(const ch of text){
+    if(ctx.measureText(line+ch).width>maxW && line){out.push(line);line=ch}
+    else line+=ch;
+  }
+  if(line) out.push(line);
+  return out;
+}
+function drawRadarCanvas(ctx,cx,cy,R,r){
+  const vals=DIM_IDS.map(id=>r[id]);
+  const names=DIM_IDS.map(id=>PROFILES[id].short);
+  const n=6;
+  const pt=(i,v)=>{
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const rr=Math.max(0,Math.min(100,v))/100*R;
+    return [cx+rr*Math.cos(a), cy+rr*Math.sin(a)];
+  };
+  [25,50,75,100].forEach(k=>{
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const p=pt(i,k);
+      if(i===0) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=(k===50||k===100)?'#D7C2A4':'#E7D8C8';
+    ctx.lineWidth=k===100?3:2;
+    ctx.stroke();
+  });
+  for(let i=0;i<n;i++){
+    const p=pt(i,100);
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(p[0],p[1]);
+    ctx.strokeStyle='#E6D5C8';
+    ctx.lineWidth=2;
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  vals.forEach((v,i)=>{
+    const p=pt(i,v);
+    if(i===0) ctx.moveTo(p[0],p[1]); else ctx.lineTo(p[0],p[1]);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(168,132,63,0.34)';
+  ctx.fill();
+  ctx.strokeStyle='#A8843F';
+  ctx.lineWidth=4;
+  ctx.stroke();
+  vals.forEach((v,i)=>{
+    const p=pt(i,v);
+    ctx.beginPath();
+    ctx.arc(p[0],p[1],7,0,Math.PI*2);
+    ctx.fillStyle='#FFFBF7';
+    ctx.fill();
+    ctx.lineWidth=3;
+    ctx.strokeStyle='#A8843F';
+    ctx.stroke();
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const lx=cx+(R+46)*Math.cos(a);
+    const ly=cy+(R+46)*Math.sin(a);
+    ctx.font='600 26px '+FONT;
+    ctx.fillStyle='#3A2C32';
+    ctx.textAlign=Math.abs(Math.cos(a))<0.35?'center':(Math.cos(a)>0?'left':'right');
+    ctx.textBaseline='middle';
+    ctx.fillText(names[i]+' '+vals[i], lx, ly);
+  });
+}
+function buildShare(r){
+  const W=1080,H=1920;
+  const cv=document.createElement('canvas');
+  cv.width=W;cv.height=H;
+  const x=cv.getContext('2d');
+  const g=x.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#FBF6EE');
+  g.addColorStop(.55,'#F4E6D4');
+  g.addColorStop(1,'#E9DFEE');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle='rgba(168,132,63,.12)';
+  x.beginPath();x.arc(160,240,260,0,Math.PI*2);x.fill();
+  x.fillStyle='rgba(142,122,158,.10)';
+  x.beginPath();x.arc(940,620,280,0,Math.PI*2);x.fill();
+  x.strokeStyle='#E6D5C6';x.lineWidth=3;x.strokeRect(48,48,W-96,H-96);
+  x.strokeStyle='#A8843F';x.lineWidth=4;
+  [[80,80,1,1],[W-80,80,-1,1],[80,H-80,1,-1],[W-80,H-80,-1,-1]].forEach(c=>{
+    x.beginPath();x.moveTo(c[0],c[1]+c[3]*28);x.lineTo(c[0],c[1]);x.lineTo(c[0]+c[2]*28,c[1]);x.stroke();
+  });
+  function T(t,tx,ty,s,col,wt){
+    x.font=(wt||500)+' '+s+'px '+FONT;
+    x.fillStyle=col;x.textAlign='center';x.textBaseline='top';
+    x.fillText(t,tx,ty);
+  }
+  T('娱乐向 · 自我探索',W/2,108,28,'#7A5B2E',600);
+  T('天赋潜能测试',W/2,164,64,'#3A2C32',700);
+  T('你的隐藏天赋是什么',W/2,248,32,'#6F5C82',500);
+  T('潜能指数',W/2,328,28,'#7A5B2E',600);
+  T(String(r.index),W/2,364,120,'#7A5B2E',700);
+  T(r.level.name,W/2,500,36,'#A8843F',700);
+  T('主导隐藏天赋',W/2,568,26,'#6F5C82',600);
+  T(r.profile.title,W/2,612,60,'#3A2C32',700);
+  x.font='500 32px '+FONT;
+  const lines=wrapT(x,'「'+r.profile.portrait+'」',880);
+  lines.forEach((ln,i)=>T(ln,W/2,700+i*46,32,'#4A3C44',500));
+  let y=700+lines.length*46+28;
+  const sec=PROFILES[r.secondary.id];
+  T('副天赋 · '+sec.name,W/2,y,30,'#6F5C82',600);
+  y+=52;
+  const labels=DIM_IDS.map(id=>[PROFILES[id].short, r[id]]);
+  const bw=300,bh=118,gap=18;
+  for(let row=0;row<2;row++){
+    let bx=(W-(bw*3+gap*2))/2;
+    for(let col=0;col<3;col++){
+      const it=labels[row*3+col];
+      x.fillStyle='#FFFBF7';
+      roundRect(x,bx,y,bw,bh,24);x.fill();
+      x.strokeStyle='#E6D5C6';x.lineWidth=2;x.stroke();
+      T(it[0],bx+bw/2,y+16,26,'#7C6A70',600);
+      T(String(it[1]),bx+bw/2,y+52,46,'#7A5B2E',700);
+      bx+=bw+gap;
+    }
+    y+=bh+gap;
+  }
+  const scoresBottom=y;
+  const footerTop=H-250;
+  const radarCenter=Math.round((scoresBottom+footerTop)/2);
+  const radarR=Math.max(120, Math.min(168, Math.floor((footerTop-scoresBottom-150)/2)));
+  drawRadarCanvas(x,W/2,radarCenter,radarR,r);
+  x.font='400 26px '+FONT;
+  const dlines=wrapT(x,'娱乐向自我探索，非正式心理测量、非职业测评、非诊断。高分是偏好线索，不是能力排名。',900);
+  dlines.forEach((ln,i)=>T(ln,W/2,footerTop+i*38,26,'#7C6A70',400));
+  T(URL_,W/2,footerTop+dlines.length*38+16,24,'#7A5B2E',600);
+  return cv.toDataURL('image/png');
+}
+function showShare(){
+  if(!current){toast('还没有可分享的结果');return}
+  try{
+    const u=buildShare(current);
+    $('shareImg').src=u;
+    $('shareImg').alt='天赋潜能测试 '+current.profile.title+' 潜能指数'+current.index;
+    window.__shareUrl=u;
+    $('ov').classList.add('show');
+  }catch(e){
+    console.error(e);
+    toast('生成失败，请截图分享');
+  }
+}
+
+function isUnlocked(){try{return sessionStorage.getItem(ACCESS_KEY)==='1'}catch(e){return false}}
+function setUnlocked(code){
+  try{
+    sessionStorage.setItem(ACCESS_KEY,'1');
+    if(code) sessionStorage.setItem(ACCESS_CODE_KEY,code);
+  }catch(e){}
+}
+function clearUnlock(){
+  try{
+    sessionStorage.removeItem(ACCESS_KEY);
+    sessionStorage.removeItem(ACCESS_CODE_KEY);
+  }catch(e){}
+}
+function normalizeCode(v){
+  return String(v||'')
+    .trim()
+    .replace(/[\uFF21-\uFF3A]/g, ch=>String.fromCharCode(ch.charCodeAt(0)-0xFF21+65))
+    .replace(/[\uFF10-\uFF19]/g, ch=>String.fromCharCode(ch.charCodeAt(0)-0xFF10+48))
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g,'');
+}
+function openCodeModal(prefill){
+  $('codeMask').classList.add('show');
+  $('codeMask').setAttribute('aria-hidden','false');
+  document.body.classList.add('lock');
+  const inp=$('codeInput');
+  if(prefill!=null) inp.value=prefill;
+  setTimeout(()=>inp.focus(),40);
+}
+function closeCodeModal(){
+  $('codeMask').classList.remove('show');
+  $('codeMask').setAttribute('aria-hidden','true');
+  document.body.classList.remove('lock');
+}
+function startQuiz(){
+  ans=[];qi=0;picking=false;
+  closeCodeModal();
+  show('quiz');
+  renderQ();
+}
+function setCodeBusy(busy){
+  const btn=$('btnCodeOk');
+  btn.disabled=!!busy;
+  btn.textContent=busy?'验证中…':'开始答题';
+}
+function refreshLastBtn(){
+  let has=false;
+  try{has=!!localStorage.getItem(LAST_KEY)}catch(e){}
+  $('btnLast').hidden=!has;
+}
+function clampScore(n){
+  n=Number(n);
+  if(!Number.isFinite(n)) return null;
+  return Math.max(0, Math.min(100, Math.round(n)));
+}
+function showLast(){
+  let data=null;
+  try{data=JSON.parse(localStorage.getItem(LAST_KEY)||'null')}catch(e){data=null}
+  if(!data){toast('还没有上次结果');refreshLastBtn();return}
+  const scores={};
+  for(const id of DIM_IDS){
+    const v=clampScore(data[id]);
+    if(v==null){toast('还没有上次结果');refreshLastBtn();return}
+    scores[id]=v;
+  }
+  renderResult(analyze(scores));
+  show('result');
+  toast('已打开上次结果，本次不扣次');
+}
+async function mantleFetch(url, opts){
+  const ctl=new AbortController();
+  const timer=setTimeout(()=>ctl.abort(),12000);
+  try{return await fetch(url, Object.assign({}, opts, {signal:ctl.signal}))}
+  finally{clearTimeout(timer)}
+}
+async function mantleGet(code){
+  const r=await mantleFetch(MANTLE_BASE+'/'+MANTLE_COL+'/'+encodeURIComponent(code),{headers:{'X-Mantle-Key':MANTLE_KEY}});
+  if(r.status===404) return null;
+  if(!r.ok) throw new Error('net '+r.status);
+  return r.json();
+}
+async function mantleDecr(code){
+  const r=await mantleFetch('https://mantledb.sh/v2/increment/'+MANTLE_NS+'/'+MANTLE_COL+'/'+encodeURIComponent(code),{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Mantle-Key':MANTLE_KEY},
+    body:JSON.stringify({key:'remaining',by:-1})
+  });
+  if(!r.ok) throw new Error('net '+r.status);
+  return r.json();
+}
+async function mantleIncr(code){
+  try{
+    await mantleFetch('https://mantledb.sh/v2/increment/'+MANTLE_NS+'/'+MANTLE_COL+'/'+encodeURIComponent(code),{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Mantle-Key':MANTLE_KEY},
+      body:JSON.stringify({key:'remaining',by:1})
+    });
+  }catch(e){}
+}
+async function redeemCode(code){
+  const data=await mantleGet(code);
+  if(!data||typeof data.remaining!=='number') return {ok:false,reason:'invalid'};
+  if(data.remaining<=0) return {ok:false,reason:'exhausted'};
+  const after=await mantleDecr(code);
+  const left=typeof after.remaining==='number'?after.remaining:-1;
+  if(left<0){await mantleIncr(code);return {ok:false,reason:'exhausted'}}
+  return {ok:true,remaining:left,max:data.max||3};
+}
+async function tryUnlock(fromUrl){
+  if(codeBusy) return false;
+  const code=normalizeCode($('codeInput').value);
+  $('codeInput').value=code;
+  if(!code){if(!fromUrl) toast('请输入验证码');return false}
+  if(!CODE_RE.test(code)){if(!fromUrl) toast('验证码不正确');return false}
+  codeBusy=true;
+  setCodeBusy(true);
+  try{
+    const out=await redeemCode(code);
+    if(out.ok){
+      setUnlocked(code);
+      const left=out.remaining;
+      toast(left>0?('验证成功，还可以测 '+left+' 次'):'验证成功，这是本码最后一次');
+      startQuiz();
+      return true;
+    }
+    if(!fromUrl) toast(out.reason==='exhausted'?'此验证码已用完（每个码限 3 次）':'验证码不正确');
+    return false;
+  }catch(e){
+    console.error(e);
+    if(!fromUrl) toast('网络异常，请稍后重试');
+    return false;
+  }finally{
+    codeBusy=false;
+    setCodeBusy(false);
+  }
+}
+
+$('btnStart').onclick=()=>{if(isUnlocked()){startQuiz();return} openCodeModal(null)};
+$('btnLast').onclick=()=>showLast();
+$('btnViewLast').onclick=()=>showLast();
+$('btnCodeOk').onclick=()=>tryUnlock(false);
+$('codeInput').addEventListener('keydown',e=>{if(e.key==='Enter') tryUnlock(false)});
+$('codeInput').addEventListener('input',()=>{
+  const input=$('codeInput');
+  const v=input.value.toUpperCase();
+  if(v!==input.value){const p=input.selectionStart;input.value=v;try{input.setSelectionRange(p,p)}catch(e){}}
+});
+$('codeClose').onclick=closeCodeModal;
+$('codeMask').addEventListener('click',e=>{if(e.target===$('codeMask')) closeCodeModal()});
+$('qback').onclick=()=>{
+  if(picking) return;
+  if(qi>0){qi--;renderQ()}
+  else show('start');
+};
+$('btnRetry').onclick=()=>{
+  let pre='';
+  try{pre=sessionStorage.getItem(ACCESS_CODE_KEY)||''}catch(e){}
+  clearUnlock();
+  openCodeModal(pre);
+};
+$('btnCopy').onclick=copyText;
+$('btnImg').onclick=showShare;
+$('btnClose').onclick=()=>$('ov').classList.remove('show');
+$('btnDl').onclick=()=>{
+  if(!window.__shareUrl) return;
+  const a=document.createElement('a');
+  a.href=window.__shareUrl;
+  a.download='天赋潜能测试.png';
+  document.body.appendChild(a);a.click();a.remove();
+};
+fillDisclaimer($('startDisclaimer'));
+refreshLastBtn();
+(function(){
+  try{
+    const p=new URLSearchParams(location.search).get('code');
+    if(p==null||p==='') return;
+    if(isUnlocked()) return;
+    $('codeInput').value=normalizeCode(p);
+    openCodeModal($('codeInput').value);
+    tryUnlock(true);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
