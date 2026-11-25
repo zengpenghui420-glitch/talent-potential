@@ -136,7 +136,7 @@ h1{font-size:30px;line-height:1.25;font-weight:700;letter-spacing:1px;margin-bot
 .code-panel-wrap{position:relative;width:100%;max-width:340px}
 .code-panel{background:#FFFBF7;border:1.5px solid var(--line);border-radius:22px;padding:24px 18px 18px;box-shadow:0 16px 40px rgba(58,44,50,.16);text-align:center}
 .code-panel h3{font-size:18px;margin-bottom:14px}
-.code-panel input{width:100%;padding:14px 12px;border:1.5px solid var(--line);border-radius:14px;font-size:18px;letter-spacing:2px;text-align:center;color:var(--ink);background:#F8F3EC;outline:none}
+.code-panel input{width:100%;min-width:0;padding:14px 12px;border:1.5px solid var(--line);border-radius:14px;font-size:16px;letter-spacing:0;text-align:center;color:var(--ink);background:#F8F3EC;outline:none}
 .code-panel input:focus{border-color:var(--gold);background:#fff}
 .code-panel .btn-primary{margin-top:12px}
 .code-hint{margin-top:12px;font-size:12px;color:var(--faint);line-height:1.6}
@@ -197,7 +197,7 @@ h1{font-size:30px;line-height:1.25;font-weight:700;letter-spacing:1px;margin-bot
   <div class="acts">
     <p class="acts-note">娱乐向自我探索 · 非正式心理测量 · 非职业测评 · 非诊断</p>
     <div class="acts-row">
-      <button class="bo" id="btnRetry" type="button">重新测试</button>
+      <button class="bo" id="btnRetry" type="button">再测一次</button>
       <button class="bo" id="btnViewLast" type="button">查看上次结果</button>
     </div>
     <div class="acts-row">
@@ -220,10 +220,10 @@ h1{font-size:30px;line-height:1.25;font-weight:700;letter-spacing:1px;margin-bot
   <div class="code-panel-wrap">
     <div class="code-panel">
       <button type="button" class="code-close" id="codeClose" aria-label="关闭">×</button>
-      <h3>输入测试验证码</h3>
-      <input type="text" id="codeInput" placeholder="例如 TP7K3N" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" enterkeyhint="go">
+      <h3>输入订单号</h3>
+      <input type="text" id="codeInput" placeholder="订单号" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="120" enterkeyhint="go">
       <button type="button" class="btn-primary" id="btnCodeOk">开始答题</button>
-      <p class="code-hint">付款后会收到 TP 开头的 6 位验证码<br>每个码可使用 3 次<br>重新测试会再次扣次 · 查看上次结果不扣次</p>
+      <p class="code-hint">到小红书「我的订单」复制订单号贴过来<br>每个订单号可以测 3 次</p>
     </div>
   </div>
 </div>
@@ -238,6 +238,13 @@ const ACCESS_KEY='talent_potential_unlocked';
 const ACCESS_CODE_KEY='talent_potential_code';
 const LAST_KEY='talent_potential_last_result';
 const CODE_RE=/^TP[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}$/;
+const KIND_KEY='talent_potential_kind';
+const PHASE_KEY='talent_potential_phase';
+const RESULT_KEY='talent_potential_session_result';
+const PROGRESS_KEY='talent_potential_progress';
+const API_BASE='https://snappy-tundra-7uesdvk-zengpenghui420-glitch.vercel.app';
+const QUIZ_KEY='talent';
+const ORDER_TIMEOUT_MS=12000;
 const URL_='https://zengpenghui420-glitch.github.io/talent-potential/';
 const DISCLAIMER='本测试为娱乐向自我探索，题目为原创日常情景，非正式心理测量、非职业测评、非诊断。潜能指数只是偏好线索的娱乐分档，不代表能力高低或职业适合度。高分不等于更有天赋，低分也不代表没有可能。';
 const FONT='"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","WenQuanYi Micro Hei","Droid Sans Fallback","Microsoft YaHei",sans-serif';
@@ -404,7 +411,6 @@ let ans=[];
 let qi=0;
 let picking=false;
 let current=null;
-let codeBusy=false;
 
 function $(id){return document.getElementById(id)}
 function el(tag, cls, text){
@@ -508,11 +514,13 @@ function renderQ(){
     b.onclick=()=>pick(c.v);
     box.appendChild(b);
   });
+  saveQuizProgress();
 }
 function pick(v){
   if(picking) return;
   picking=true;
   ans[qi]=v;
+  saveQuizProgress();
   document.querySelectorAll('#opts .opt').forEach((node,k)=>node.classList.toggle('sel', k===v-1));
   setTimeout(()=>{
     picking=false;
@@ -521,6 +529,7 @@ function pick(v){
   },180);
 }
 function finish(){
+  if(isUnlocked()) persistSessionResult();
   show('loading');
   const report=scoreFromAnswers(ans);
   setTimeout(()=>{
@@ -860,12 +869,33 @@ function setUnlocked(code){
   try{
     sessionStorage.setItem(ACCESS_KEY,'1');
     if(code) sessionStorage.setItem(ACCESS_CODE_KEY,code);
+    sessionStorage.setItem(KIND_KEY,'code');
+    sessionStorage.removeItem(PHASE_KEY);
+    sessionStorage.removeItem(RESULT_KEY);
+    sessionStorage.removeItem(PROGRESS_KEY);
   }catch(e){}
 }
+function setUnlockedOrder(orderId){
+  try{
+    sessionStorage.setItem(ACCESS_KEY,'1');
+    sessionStorage.setItem(ACCESS_CODE_KEY,orderId);
+    sessionStorage.setItem(KIND_KEY,'order');
+    sessionStorage.setItem(PHASE_KEY,'running');
+    sessionStorage.removeItem(RESULT_KEY);
+    sessionStorage.removeItem(PROGRESS_KEY);
+  }catch(e){}
+}
+function sessionKind(){try{return sessionStorage.getItem(KIND_KEY)||''}catch(e){return ''}}
+function sessionPhase(){try{return sessionStorage.getItem(PHASE_KEY)||''}catch(e){return ''}}
+function sessionCode(){try{return sessionStorage.getItem(ACCESS_CODE_KEY)||''}catch(e){return ''}}
 function clearUnlock(){
   try{
     sessionStorage.removeItem(ACCESS_KEY);
     sessionStorage.removeItem(ACCESS_CODE_KEY);
+    sessionStorage.removeItem(KIND_KEY);
+    sessionStorage.removeItem(PHASE_KEY);
+    sessionStorage.removeItem(RESULT_KEY);
+    sessionStorage.removeItem(PROGRESS_KEY);
   }catch(e){}
 }
 function normalizeCode(v){
@@ -963,36 +993,384 @@ async function redeemCode(code){
   if(left<0){await mantleIncr(code);return {ok:false,reason:'exhausted'}}
   return {ok:true,remaining:left,max:data.max||3};
 }
-async function tryUnlock(fromUrl){
-  if(codeBusy) return false;
-  const code=normalizeCode($('codeInput').value);
-  $('codeInput').value=code;
-  if(!code){if(!fromUrl) toast('请输入验证码');return false}
-  if(!CODE_RE.test(code)){if(!fromUrl) toast('验证码不正确');return false}
-  codeBusy=true;
-  setCodeBusy(true);
+/* ===== UNLOCK: Xiaohongshu order id, or the existing Mantle tp/ code =====
+   P+18 digits → POST /order/redeem and GET /order/get (quiz=talent).
+   A TP code stays on this page's Mantle tp/ read + increment (do not switch legacy to /redeem).
+   Submit / 再测一次: POST /order/redeem (one use). Quiz or result refresh: GET /order/get
+   (no decrement). not_found on peek does not reveal the quiz or the result. A timed-out redeem
+   peeks and posts again only when the use count did not go up. paidVerified is never shown. */
+function normalizeOrderId(raw){
+  let s=String(raw??'');
+  if(s.length>400)s=s.slice(0,400);
+  s=s.normalize('NFKC').trim();
+  if((s.startsWith('"')&&s.endsWith('"'))||(s.startsWith("'")&&s.endsWith("'"))||(s.startsWith('`')&&s.endsWith('`'))||(s.startsWith('「')&&s.endsWith('」')))s=s.slice(1,-1).trim();
+  s=s.toUpperCase();
+  s=s.replace(/[\s\u00A0]+/g,'');
+  s=s.replace(/[-_./\\·•:：]+/g,'');
+  return s;
+}
+function isRepeatingBlock(digits){
+  for(const size of [1,2,3,6,9]){const block=digits.slice(0,size);if(block.repeat(digits.length/size)===digits)return true}
+  return false;
+}
+function isPlusMinusOneMod10(digits){
+  const step=(digits.charCodeAt(1)-digits.charCodeAt(0)+10)%10;
+  if(step!==1&&step!==9)return false;
+  for(let i=1;i<digits.length;i++){if((digits.charCodeAt(i)-digits.charCodeAt(i-1)+10)%10!==step)return false}
+  return true;
+}
+function orderFormatError(orderId){
+  if(!/^P\d{18}$/.test(orderId))return 'invalid';
+  const digits=orderId.slice(1);
+  if(isRepeatingBlock(digits)||isPlusMinusOneMod10(digits))return 'invalid';
+  return '';
+}
+function classifyInput(raw){
+  const trimmed=String(raw||'').trim();
+  if(!trimmed)return {type:'empty'};
+  const orderId=normalizeOrderId(raw);
+  if(/^P\d{18}$/.test(orderId))return {type:'order',orderId};
+  if(/^P\d+$/.test(orderId)&&orderId.length>=10)return {type:'order-invalid'};
+  const code=normalizeCode(raw);
+  if(!code)return {type:'empty'};
+  if(/^P\d{10,}$/.test(code))return {type:'order-invalid'};
+  return {type:'code',code};
+}
+function usesOf(res){
+  if(!res)return null;
+  if(res.ok&&typeof res.uses==='number')return res.uses;
+  if(res.error==='not_found')return 0;
+  return null;
+}
+function decideTimeout(beforeUses,after){
+  if(!after)return 'giveup';
+  if(!after.ok&&after.error&&after.error!=='not_found')return 'return';
+  const afterUses=usesOf(after);
+  if(after.ok&&beforeUses!=null&&afterUses!=null&&afterUses>beforeUses)return 'accept';
+  if(after.ok&&beforeUses==null)return 'accept';
+  if(afterUses===0||(beforeUses!=null&&afterUses!=null&&afterUses===beforeUses))return 'retry';
+  return 'giveup';
+}
+function orderFailText(res){
+  const e=res&&(res.error||res.reason);
+  if(e==='invalid')return '订单号格式不对，请到小红书「我的订单」里复制';
+  if(e==='bound_other_quiz')return '这个订单号已经用来测过别的测试了';
+  if(e==='exhausted')return '这个订单号的 3 次已经用完了';
+  if(e==='rate_limited')return '试的次数有点多，请稍后再试';
+  return '暂时验证不了，请稍后再试';
+}
+function orderTimeoutMs(){
+  try{if(globalThis.__ORDER_TIMEOUT_MS)return globalThis.__ORDER_TIMEOUT_MS}catch(e){}
+  return ORDER_TIMEOUT_MS;
+}
+function reconcileWaitMs(){
+  try{if(globalThis.__ORDER_RECONCILE_MS!=null)return globalThis.__ORDER_RECONCILE_MS}catch(e){}
+  return 1200;
+}
+function deviceId(){
+  const k='talent_potential_device';
   try{
-    const out=await redeemCode(code);
-    if(out.ok){
-      setUnlocked(code);
-      const left=out.remaining;
-      toast(left>0?('验证成功，还可以测 '+left+' 次'):'验证成功，这是本码最后一次');
-      startQuiz();
+    let id=localStorage.getItem(k);
+    if(id&&/^[A-Za-z0-9._:-]{8,128}$/.test(id))return id;
+    const buf=new Uint8Array(16);
+    if(typeof crypto!=='undefined'&&crypto.getRandomValues)crypto.getRandomValues(buf);
+    else for(let i=0;i<buf.length;i++)buf[i]=Math.floor(Math.random()*256);
+    id=Array.from(buf,b=>b.toString(16).padStart(2,'0')).join('');
+    localStorage.setItem(k,id);
+    return id;
+  }catch(e){return ''}
+}
+function orderHeaders(json){
+  const h={};
+  if(json)h['Content-Type']='application/json';
+  const id=deviceId();
+  if(id)h['X-Device-Id']=id;
+  return h;
+}
+async function orderFetch(url,opts){
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),orderTimeoutMs());
+  try{
+    let r;
+    try{r=await fetch(url,Object.assign({},opts,{signal:ctrl.signal,cache:'no-store'}))}
+    catch(e){
+      const err=new Error('timeout');err.timeout=true;throw err;
+    }
+    const text=await r.text();
+    let data=null;
+    try{data=text?JSON.parse(text):null}catch(e){data=null}
+    if(!data||typeof data!=='object'||Array.isArray(data)){
+      const err=new Error('http '+r.status);
+      err.status=r.status;
+      if(r.status===500||r.status===502||r.status===503||r.status===504)err.timeout=true;
+      else err.unavailable=true;
+      throw err;
+    }
+    data.status=r.status;
+    if(r.status===404&&data.error==='not_found')return {ok:false,error:'not_found',status:404};
+    if(r.status===500||r.status===502||r.status===503||r.status===504){const err=new Error('timeout');err.timeout=true;err.status=r.status;throw err}
+    return data;
+  }finally{clearTimeout(timer)}
+}
+function orderGetUrl(orderId){return API_BASE+'/order/get?quiz='+encodeURIComponent(QUIZ_KEY)+'&orderId='+encodeURIComponent(orderId)}
+async function peekOrder(orderId){return orderFetch(orderGetUrl(orderId),{method:'GET',headers:orderHeaders(false)})}
+async function postRedeem(orderId){
+  return orderFetch(API_BASE+'/order/redeem',{method:'POST',headers:orderHeaders(true),body:JSON.stringify({quiz:QUIZ_KEY,orderId})});
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+async function reconcileTimeout(orderId,beforeUses){
+  let after=null;
+  try{after=await peekOrder(orderId)}catch(e){after=null}
+  let action=decideTimeout(beforeUses,after);
+  if(action==='retry'||action==='giveup'){
+    await sleep(reconcileWaitMs());
+    try{after=await peekOrder(orderId)}catch(e){}
+    const again=decideTimeout(beforeUses,after);
+    if(again==='accept'||again==='return'||again==='retry')action=again;
+  }
+  return {action,after};
+}
+async function redeemOrder(orderId){
+  const bad=orderFormatError(orderId);
+  if(bad)return {ok:false,error:bad};
+  let beforeUses=null;
+  try{
+    const before=await peekOrder(orderId);
+    if(before&&before.ok&&(before.remaining<=0||(typeof before.max==='number'&&typeof before.uses==='number'&&before.uses>=before.max))){
+      return {ok:false,error:'exhausted',remaining:0,max:before.max||3};
+    }
+    if(before&&!before.ok&&before.error&&before.error!=='not_found')return before;
+    beforeUses=usesOf(before);
+  }catch(e){
+    if(!(e&&(e.unavailable||e.timeout)))throw e;
+  }
+  async function once(){
+    try{return {kind:'res',res:await postRedeem(orderId)}}
+    catch(e){if(e&&e.timeout)return {kind:'timeout'};throw e}
+  }
+  let outcome=await once();
+  if(outcome.kind==='res')return outcome.res;
+  let rec=await reconcileTimeout(orderId,beforeUses);
+  if(rec.action==='accept'||rec.action==='return')return rec.after;
+  if(rec.action!=='retry'){const err=new Error('timeout');err.timeout=true;throw err}
+  outcome=await once();
+  if(outcome.kind==='res')return outcome.res;
+  rec=await reconcileTimeout(orderId,beforeUses);
+  if(rec.action==='accept'||rec.action==='return')return rec.after;
+  const err=new Error('timeout');err.timeout=true;throw err;
+}
+let unlockBusy=false;
+function orderSuccessText(res){
+  if(res&&typeof res.remaining==='number') return res.remaining>0?'验证成功，还可以测 '+res.remaining+' 次':'验证成功，这是最后一次';
+  return '验证成功';
+}
+function saveQuizProgress(){
+  if(!isUnlocked()) return;
+  try{sessionStorage.setItem(PROGRESS_KEY, JSON.stringify({ans:ans.slice(), qi:qi}))}catch(e){}
+}
+function persistSessionResult(){
+  try{
+    sessionStorage.setItem(RESULT_KEY, JSON.stringify({ans:ans.slice()}));
+    sessionStorage.setItem(PHASE_KEY,'result');
+    sessionStorage.removeItem(PROGRESS_KEY);
+  }catch(e){}
+}
+function answersComplete(list){
+  return Array.isArray(list)&&list.length===QS.length&&list.every(n=>n===1||n===2||n===3||n===4||n===5);
+}
+function readQuizProgress(){
+  try{
+    const s=JSON.parse(sessionStorage.getItem(PROGRESS_KEY)||'null');
+    if(!s||!Array.isArray(s.ans)||typeof s.qi!=='number') return null;
+    if(!Number.isInteger(s.qi)||s.qi<0||s.qi>=QS.length) return null;
+    if(s.ans.length>QS.length) return null;
+    if(!s.ans.every(n=>n===1||n===2||n===3||n===4||n===5)) return null;
+    return s;
+  }catch(e){return null}
+}
+function readSavedResult(){
+  try{
+    const s=JSON.parse(sessionStorage.getItem(RESULT_KEY)||'null');
+    if(!answersComplete(s&&s.ans)) return null;
+    return s;
+  }catch(e){return null}
+}
+function resumeQuiz(saved){
+  ans=saved.ans.slice();
+  qi=saved.qi;
+  picking=false;
+  closeCodeModal();
+  show('quiz');
+  renderQ();
+}
+function resumeResult(saved){
+  ans=saved.ans.slice();
+  renderResult(scoreFromAnswers(saved.ans));
+  show('result');
+}
+function setLoadingCopy(title, sub){
+  const t=document.querySelector('#loading .load-title');
+  const s=document.querySelector('#loading .load-sub');
+  if(t) t.textContent=title;
+  if(s) s.textContent=sub;
+}
+function resetLoadingCopy(){
+  setLoadingCopy('正在辨认六项偏好…','语言、逻辑、共感、创意、秩序、内省，各看一眼');
+}
+async function restoreOrderResult(fromClick){
+  if(sessionKind()!=='order') return false;
+  const saved=readSavedResult(), orderId=sessionCode();
+  if(!saved||!orderId){if(fromClick) openCodeModal();return false}
+  if(unlockBusy) return false;
+  unlockBusy=true;
+  if(!fromClick){
+    setLoadingCopy('打开结果…','正在核对订单号');
+    show('loading');
+  }
+  try{
+    const peek=await peekOrder(orderId);
+    if(!peek.ok){
+      if(peek.error==='not_found') clearUnlock();
+      else toast(orderFailText(peek));
+      show('start');
+      return false;
+    }
+    resumeResult(saved);
+    return true;
+  }catch(e){
+    console.error(e);
+    show('start');
+    toast('暂时验证不了，请稍后再试');
+    return false;
+  }finally{
+    unlockBusy=false;
+    resetLoadingCopy();
+  }
+}
+async function restoreOrderQuiz(){
+  if(sessionKind()!=='order'||sessionPhase()!=='running') return false;
+  const saved=readQuizProgress(), orderId=sessionCode();
+  if(!saved||!orderId) return false;
+  if(unlockBusy) return false;
+  unlockBusy=true;
+  setLoadingCopy('打开题目…','正在核对订单号');
+  show('loading');
+  try{
+    const peek=await peekOrder(orderId);
+    if(!peek.ok){
+      if(peek.error==='not_found') clearUnlock();
+      else toast(orderFailText(peek));
+      show('start');
+      return false;
+    }
+    if(answersComplete(saved.ans)){
+      ans=saved.ans.slice();
+      persistSessionResult();
+      resumeResult(readSavedResult());
       return true;
     }
-    if(!fromUrl) toast(out.reason==='exhausted'?'此验证码已用完（每个码限 3 次）':'验证码不正确');
+    resumeQuiz(saved);
+    return true;
+  }catch(e){
+    console.error(e);
+    show('start');
+    toast('暂时验证不了，请稍后再试');
+    return false;
+  }finally{
+    unlockBusy=false;
+    resetLoadingCopy();
+  }
+}
+function restoreCodeSession(){
+  if(sessionKind()==='order'||!isUnlocked()) return;
+  const saved=readSavedResult();
+  if(sessionPhase()==='result'&&saved){resumeResult(saved);return}
+  const quiz=readQuizProgress();
+  if(!quiz) return;
+  if(answersComplete(quiz.ans)){
+    ans=quiz.ans.slice();
+    persistSessionResult();
+    resumeResult(readSavedResult());
+    return;
+  }
+  resumeQuiz(quiz);
+}
+async function tryUnlock(fromUrl){
+  if(unlockBusy) return false;
+  const cls=classifyInput($('codeInput').value);
+  if(cls.type==='empty'){if(!fromUrl) toast('请贴上订单号');return false}
+  if(cls.type==='order-invalid'||(cls.type==='order'&&orderFormatError(cls.orderId))){toast(orderFailText({error:'invalid'}));return false}
+  if(cls.type==='order') $('codeInput').value=cls.orderId;
+  if(cls.type==='code') $('codeInput').value=cls.code;
+  if(cls.type==='code'&&!CODE_RE.test(cls.code)){if(!fromUrl) toast('订单号不对');return false}
+  unlockBusy=true;
+  setCodeBusy(true);
+  try{
+    if(cls.type==='order'){
+      const res=await redeemOrder(cls.orderId);
+      if(res&&res.ok){setUnlockedOrder(cls.orderId);toast(orderSuccessText(res));startQuiz();return true}
+      toast(orderFailText(res));
+      return false;
+    }
+    const res=await redeemCode(cls.code);
+    if(res.ok){setUnlocked(cls.code);toast(orderSuccessText(res));startQuiz();return true}
+    if(!fromUrl) toast(res.reason==='exhausted'?'次数已经用完了':'订单号不对');
     return false;
   }catch(e){
     console.error(e);
-    if(!fromUrl) toast('网络异常，请稍后重试');
+    if(cls.type==='order'||!fromUrl) toast(cls.type==='order'?'暂时验证不了，请稍后再试':'网络异常，请稍后重试');
     return false;
   }finally{
-    codeBusy=false;
+    unlockBusy=false;
     setCodeBusy(false);
   }
 }
+async function retryOrder(){
+  const orderId=sessionCode();
+  if(!orderId){clearUnlock();show('start');openCodeModal();return}
+  if(unlockBusy) return;
+  unlockBusy=true;
+  const btn=$('btnRetry');
+  btn.disabled=true;
+  const prev=btn.textContent;
+  btn.textContent='验证中…';
+  try{
+    const res=await redeemOrder(orderId);
+    if(!res||!res.ok){toast(orderFailText(res));return}
+    setUnlockedOrder(orderId);
+    toast(orderSuccessText(res));
+    show('start');
+  }catch(e){
+    console.error(e);
+    toast('暂时验证不了，请稍后再试');
+  }finally{
+    btn.disabled=false;
+    btn.textContent=prev;
+    unlockBusy=false;
+  }
+}
 
-$('btnStart').onclick=()=>{if(isUnlocked()){startQuiz();return} openCodeModal(null)};
+$('btnStart').onclick=()=>{
+  if(unlockBusy) return;
+  if(sessionKind()==='order'){
+    if(sessionPhase()==='running'){
+      const saved=readQuizProgress();
+      if(saved&&!answersComplete(saved.ans)){resumeQuiz(saved);return}
+      startQuiz();
+      return;
+    }
+    if(sessionPhase()==='result'){restoreOrderResult(true);return}
+    openCodeModal();
+    return;
+  }
+  if(isUnlocked()){
+    const saved=readQuizProgress();
+    if(saved&&!answersComplete(saved.ans)){resumeQuiz(saved);return}
+    startQuiz();
+    return;
+  }
+  openCodeModal(null);
+};
 $('btnLast').onclick=()=>showLast();
 $('btnViewLast').onclick=()=>showLast();
 $('btnCodeOk').onclick=()=>tryUnlock(false);
@@ -1010,10 +1388,15 @@ $('qback').onclick=()=>{
   else show('start');
 };
 $('btnRetry').onclick=()=>{
-  let pre='';
-  try{pre=sessionStorage.getItem(ACCESS_CODE_KEY)||''}catch(e){}
-  clearUnlock();
-  openCodeModal(pre);
+  if(unlockBusy) return;
+  if(sessionKind()==='order'){retryOrder();return}
+  try{
+    sessionStorage.removeItem(PROGRESS_KEY);
+    sessionStorage.removeItem(RESULT_KEY);
+    if(isUnlocked()) sessionStorage.setItem(PHASE_KEY,'running');
+  }catch(e){}
+  ans=[];qi=0;picking=false;
+  show('start');
 };
 $('btnCopy').onclick=copyText;
 $('btnImg').onclick=showShare;
@@ -1028,12 +1411,17 @@ $('btnDl').onclick=()=>{
 fillDisclaimer($('startDisclaimer'));
 refreshLastBtn();
 (function(){
+  const kind=sessionKind();
+  const phase=sessionPhase();
+  if(kind==='order'&&phase==='result') restoreOrderResult(false);
+  else if(kind==='order'&&phase==='running') restoreOrderQuiz();
+  else restoreCodeSession();
   try{
     const p=new URLSearchParams(location.search).get('code');
     if(p==null||p==='') return;
-    if(isUnlocked()) return;
-    $('codeInput').value=normalizeCode(p);
-    openCodeModal($('codeInput').value);
+    if(isUnlocked()||unlockBusy) return;
+    $('codeInput').value=p;
+    openCodeModal(p);
     tryUnlock(true);
   }catch(e){}
 })();
